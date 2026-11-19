@@ -1,6 +1,7 @@
 import re,os,shutil,html as H_
 exec(open('brands.py',encoding='utf-8').read())
 exec(open('hubs.py',encoding='utf-8').read())
+exec(open('seo_long.py',encoding='utf-8').read())
 OUT='/home/claude/dateworld-site/public'
 if os.path.exists(OUT): shutil.rmtree(OUT)
 os.makedirs(OUT+'/img')
@@ -121,7 +122,7 @@ def hub(c):
         cards=''.join('''<article class="lcard" id="s-%s"><div class="lc-head"><span class="lc-no">%d</span><span class="lc-lg">%s</span><div class="lc-t"><h3>%s</h3><div class="chips">%s</div></div><div class="lc-score"><b>%s</b><span>ud af 5</span></div></div><p class="lc-txt">%s</p><div class="lc-pc"><div><h4>%sFordele</h4><ul>%s</ul></div><div><h4>%sUlemper</h4><ul>%s</ul></div></div><div class="lc-foot"><dl><div><dt>Pris fra</dt><dd>%s</dd></div><div><dt>Gratis oprettelse</dt><dd>%s</dd></div><div><dt>App</dt><dd>%s</dd></div></dl><div class="lc-act"><a class="read" href="%s">Læs anmeldelsen</a><a class="cta sm" href="#" rel="sponsored nofollow"><span>Besøg %s</span><i>%s</i></a></div></div></article>'''%([k for k in c['brands']][i],i+1,lg(b),b['n'],''.join('<span>%s</span>'%x for x in b['chips']),b['score'],b['txt'],CHK,''.join('<li>%s</li>'%x for x in b['pros']),MIN,''.join('<li>%s</li>'%x for x in b['cons']),b['price'],b['free'],b['app'],b['url'],b['n'],ARS) for i,b in enumerate(bs))
         body+='<section class="lsec lgray" id="gennemgang"><div class="wrap"><div class="sec-head"><h2>Gennemgang</h2><span class="rule" aria-hidden="true"></span></div><div class="lcards">%s</div></div></section>'%cards
     body+=faqsec(c['faq'])
-    seo=c['seo']; half=(len(seo)+1)//2
+    seo=L.get(c['url']) or c['seo']; half=(len(seo)+1)//2
     body+='<section class="prose" id="mere"><div class="wrap"><h2>%s: det skal du vide</h2><div class="prose-cols"><div>%s</div><div>%s</div></div></div></section>'%(c['crumb'],''.join('<h3>%s</h3><p>%s</p>'%x for x in seo[:half]),''.join('<h3>%s</h3><p>%s</p>'%x for x in seo[half:]))
     body+='<section class="lsec"><div class="wrap"><div class="lom"><h2>Om denne side</h2><p>Vi sammenligner de tjenester, vi har gennemgået, ud fra deres hjemmesider, priser, vilkår og brugernes anmeldelser. Dateworld får betaling, hvis du opretter et medlemskab via vores links. Det påvirker ikke rækkefølgen eller det, vi skriver. <a href="/saadan-arbejder-vi/">Sådan arbejder vi</a></p></div></div></section>'
     return shell(body,c['title'])
