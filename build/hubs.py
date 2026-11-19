@@ -38,8 +38,8 @@ h('/tinder-alternativer/','Tinder alternativer 2026: de bedste apps og sider –
  [('Hvorfor skifte fra Tinder?','Mange oplever, at Tinder er meget fokuseret på billeder og hurtige valg. Andre apps giver mere plads til personlighed og samtale.')],crumb='Tinder alternativer')
 h('/dating-40-plus/','Dating 40+ 2026: de bedste datingsider for dig over 40 – Dateworld','Dating 40+',
  'Midt i livet ved du, hvad du vil have. Her er de datingsider, hvor du møder andre singler over 40, der søger det samme.',
- ['dating','40plus','single','be2','senior'],[('dating','Bredest udvalg'),('40plus','Kun 40+'),('single','Match på personlighed')],
- [('Hvilken datingside er bedst for 40+?','Dating.dk har mange profiler over 40, og 40plus.dk er bygget til målgruppen. Søger du et fast forhold, er sider med personlighedstest et godt valg.'),('Er det for sent at date som 40-årig?','Slet ikke. Mange finder en ny partner efter 40, og netdating er en af de mest almindelige måder at gøre det på.')],
+ ['dating','single','be2','senior'],[('dating','Bredest udvalg'),('single','Match på personlighed'),('be2','Personlighedstest')],
+ [('Hvilken datingside er bedst for 40+?','Dating.dk har mange profiler over 40. Søger du et fast forhold, er sider med personlighedstest et godt valg.'),('Er det for sent at date som 40-årig?','Slet ikke. Mange finder en ny partner efter 40, og netdating er en af de mest almindelige måder at gøre det på.')],
  [('Dating efter 40','Efter 40 har mange en skilsmisse, børn eller en travl karriere i bagagen. Det gør det vigtigt at finde en, der passer ind i den hverdag, du har nu. Læs også <a href="/hvordan-finder-man-en-kaereste-som-40-aarig/">hvordan man finder en kæreste som 40-årig</a>.')],crumb='Dating 40+')
 h('/dating-50-plus/','Dating 50+ 2026: de bedste datingsider for dig over 50 – Dateworld','Dating 50+',
  'Er du over 50 og klar til at møde en ny? Her er de datingsider, hvor de andre er samme sted i livet som dig.',
@@ -98,12 +98,12 @@ h('/dating-for-handicappede/','Dating for handicappede 2026: gode råd og sider 
  [('Find en, der ser dig','Matchning på personlighed og værdier gør det lettere at blive set for den, du er. Skriv om det, du brænder for.')],crumb='Dating for handicappede')
 h('/dating-for-enlige-foraeldre/','Dating for enlige forældre 2026 – Dateworld','Dating for enlige forældre',
  'Med børn i hverdagen er tid en mangelvare. Her er de datingsider, hvor det er nemt at møde andre, der forstår livet som forælder.',
- ['dating','single','40plus','senior'],[('dating','Bredest udvalg'),('single','Match på værdier'),('40plus','Kun 40+')],
+ ['nextlove','dating','single','senior'],[('nextlove','Kun for enlige forældre'),('dating','Bredest udvalg'),('single','Match på værdier')],
  [('Skal jeg skrive, at jeg har børn?','Ja. Det er en stor del af dit liv og sparer jer begge for skuffelser.'),('Hvornår skal en ny kæreste møde mine børn?','Tag det roligt, og vent til I er sikre på hinanden.')],
  [('Dating med børn','Planlæg dates, når børnene er hos den anden forælder eller passes, og vær ærlig om, hvor meget tid du har.')],crumb='Enlige forældre')
 h('/find-bolleven/','Find en bolleven 2026: de bedste sider – Dateworld','Find en bolleven',
  'Søger du en fast, uforpligtende aftale? Her er de sider, hvor du finder andre, der vil det samme.',
- ['scor','sexhunt','erox','cdate'],[('scor','Validerede profiler'),('sexhunt','Gratis at prøve'),('cdate','Diskret')],
+ ['scor','sexhunt','erox','cdate','40plus'],[('scor','Validerede profiler'),('sexhunt','Gratis at prøve'),('cdate','Diskret')],
  [('Hvor finder man en bolleven?','På sider til sexdating som Scor.dk, Sexhunt.dk og Erox.dk, hvor alle ved, hvad de søger.'),('Hvordan undgår jeg falske profiler?','Vælg sider med validering, fx Scor.dk, og vær skeptisk over for profiler, der beder dig skifte app eller beder om penge.')],
  [('Hvad er en bolleven?','En bolleven er en, du har en fast, uforpligtende aftale med. Det kræver, at I er ærlige om forventningerne fra start.'),('Aftal reglerne','Tal om grænser, eksklusivitet og beskyttelse, før I mødes. Det gør det lettere for jer begge.')],crumb='Find en bolleven')
 h('/utro-dating/','Utro dating 2026: diskrete sider til en affære – Dateworld','Utro dating',

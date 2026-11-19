@@ -101,6 +101,7 @@ R.append(dict(slug='sexhunt',n='Sexhunt.dk',logo=None,lw=None,mw=None,out='dw-se
  seo=[('Hvad er Sexhunt.dk?','Sexhunt.dk er en dansk side til sexdating for singler og par over 18. Det er gratis at oprette en profil, og et VIP-medlemskab giver adgang til at skrive direkte med andre. Siden drives af Cyberfusion ApS i Viborg.'),('Sexdating i chatrooms','Mange bruger Sexhunt.dk som et socialt sted med chatrooms, SHOUT og loger, hvor man kan lære andre at kende, før man skriver privat.')],
 ))
 exec(open('/home/claude/build/rv_more.py',encoding='utf-8').read())
+exec(open('/home/claude/build/rv_more2.py',encoding='utf-8').read())
 I['pause']=ic('<circle cx="12" cy="12" r="8.5"/><path d="M10 9v6M14 9v6"/>')
 I['pen']=ic('<path d="M4 20h4L19 9l-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/>')
 I['brain']=ic('<circle cx="12" cy="12" r="8.5"/><path d="M9 10h.01M15 10h.01M8.5 14.5c1 1.3 2.2 2 3.5 2s2.5-.7 3.5-2"/>')
