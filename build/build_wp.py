@@ -45,7 +45,7 @@ open(T+'/functions.php','w').write(r'''<?php
 add_theme_support('title-tag');
 remove_filter('the_content','wpautop');remove_filter('the_content','wptexturize');
 remove_action('wp_head','print_emoji_detection_script',7);remove_action('wp_print_styles','print_emoji_styles');
-add_action('wp_enqueue_scripts',function(){wp_enqueue_style('dateworld',get_stylesheet_uri(),[],'1.0');wp_dequeue_style('wp-block-library');wp_dequeue_style('global-styles');wp_dequeue_style('classic-theme-styles');},100);
+add_action('wp_enqueue_scripts',function(){wp_enqueue_style('dateworld',get_stylesheet_uri(),[],filemtime(get_stylesheet_directory().'/style.css'));wp_dequeue_style('wp-block-library');wp_dequeue_style('global-styles');wp_dequeue_style('classic-theme-styles');},100);
 add_action('init',function(){foreach(['dw_title','dw_desc'] as $k){register_post_meta('page',$k,['show_in_rest'=>true,'single'=>true,'type'=>'string','auth_callback'=>function(){return current_user_can('edit_pages');}]);}});
 add_filter('pre_get_document_title',function($t){if(is_singular()){$v=get_post_meta(get_the_ID(),'dw_title',true);if($v)return $v;}return $t;},99);
 add_action('wp_head',function(){if(is_singular()){$d=get_post_meta(get_the_ID(),'dw_desc',true);if($d)echo '<meta name="description" content="'.esc_attr($d).'">'."\n";}},1);
