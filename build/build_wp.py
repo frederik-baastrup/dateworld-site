@@ -51,6 +51,5 @@ add_filter('pre_get_document_title',function($t){if(is_singular()){$v=get_post_m
 add_action('wp_head',function(){if(is_singular()){$d=get_post_meta(get_the_ID(),'dw_desc',true);if($d)echo '<meta name="description" content="'.esc_attr($d).'">'."\n";}},1);
 add_filter('show_admin_bar','__return_false');
 ''')
-open(T+'/functions.php','a').write(open('/home/claude/dateworld-site/build/wp_tools.php').read()) # dwtools
 json.dump(out,open('/home/claude/dateworld-site/public/wp-export/pages.json','w') if os.path.isdir('/home/claude/dateworld-site/public/wp-export') else open('/tmp/pages.json','w'),ensure_ascii=False)
 print(len(out),'pages', len(css)//1024,'KB css', menujs is not None)
