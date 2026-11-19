@@ -179,7 +179,7 @@ def slugify(s):
     s=s.lower().replace('æ','ae').replace('ø','oe').replace('å','aa')
     s=unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()
     return re.sub(r'[^a-z0-9]+','-',s).strip('-')[:60]
-def esc(s): return H_.escape(s,quote=False)
+def esc(s): return re.sub(r'\[([^\]]+)\]\((/[^)]+)\)',r'<a href="\2">\1</a>',H_.escape(s,quote=False))
 def md2(m):
     m=re.sub(r'\[/?(vc_|uncode|ult_|rev_)[^\]]*\]','',m)
     lines=[l.strip() for l in m.split('\n') if l.strip()]
@@ -204,6 +204,8 @@ def md2(m):
             flush_list(); cur['b'].append('<p>%s</p>'%esc(l))
     flush_list(); secs.append(cur)
     return secs
+exec(open('newguides.py',encoding='utf-8').read())
+ART=ART+G
 GLINKS=[]
 for a in ART:
     t=H_.unescape(a['t']).replace('Guide: ',''); t=re.sub(r'\s*\[.*?\]\s*','',t).strip()
