@@ -172,3 +172,67 @@ shutil.move(OUT+'/404/index.html',OUT+'/404.html'); shutil.rmtree(OUT+'/404'); P
 open(OUT+'/robots.txt','w').write('User-agent: *\nAllow: /\nSitemap: https://dateworld.dk/sitemap.xml\n')
 open(OUT+'/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join('<url><loc>https://dateworld.dk%s</loc><lastmod>2026-11-19</lastmod></url>\n'%u for u in sorted(PAGES))+'</urlset>\n')
 print(len(PAGES),'pages')
+# ---------- migrated articles
+import json,unicodedata
+ART=json.load(open('articles.json',encoding='utf-8'))
+def slugify(s):
+    s=s.lower().replace('æ','ae').replace('ø','oe').replace('å','aa')
+    s=unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()
+    return re.sub(r'[^a-z0-9]+','-',s).strip('-')[:60]
+def esc(s): return H_.escape(s,quote=False)
+def md2(m):
+    m=re.sub(r'\[/?(vc_|uncode|ult_|rev_)[^\]]*\]','',m)
+    lines=[l.strip() for l in m.split('\n') if l.strip()]
+    secs=[];cur={'h':None,'b':[]};lst=None
+    def flush_list():
+        nonlocal lst
+        if lst: cur['b'].append('<%s>%s</%s>'%(lst[0],''.join('<li>%s</li>'%esc(x) for x in lst[1]),lst[0])); lst=None
+    for l in lines:
+        if l.startswith('## ') or l.startswith('# '):
+            flush_list()
+            if cur['h'] or cur['b']: secs.append(cur)
+            cur={'h':l.lstrip('# ').strip(),'b':[]}
+        elif l.startswith('### ') or l.startswith('#### '):
+            flush_list(); cur['b'].append('<h3>%s</h3>'%esc(l.lstrip('# ').strip()))
+        elif re.match(r'^(- |\d+\. )',l):
+            t='ol' if l[0].isdigit() else 'ul'
+            if not lst or lst[0]!=t: flush_list(); lst=[t,[]]
+            lst[1].append(re.sub(r'^(- |\d+\. )','',l))
+        elif l.startswith('| '):
+            flush_list(); cur['b'].append('<p>%s</p>'%esc(l.strip('| ').replace(' | ',' · ')))
+        else:
+            flush_list(); cur['b'].append('<p>%s</p>'%esc(l))
+    flush_list(); secs.append(cur)
+    return secs
+GLINKS=[]
+for a in ART:
+    t=H_.unescape(a['t']).replace('Guide: ',''); t=re.sub(r'\s*\[.*?\]\s*','',t).strip()
+    a['title']=t; GLINKS.append((a['s'],t))
+LOGOS=[('Dating.dk','logo-dating.webp','28px','Bredest udvalg','/dating-dk-anmeldelse/'),('Senior.dk','logo-senior.webp','14px','Til dig over 50','/senior-dk-anmeldelse/'),('Single.dk','logo-single.svg','12px','Match på personlighed','/single-dk-anmeldelse/')]
+def article(a,i):
+    secs=md2(a['m'])
+    intro=''
+    if secs and secs[0]['h'] is None:
+        first=secs.pop(0); intro=''.join(first['b'])
+    plain=re.sub(r'<[^>]+>','',intro or (secs[0]['b'][0] if secs and secs[0]['b'] else ''))
+    desc=(a['d'] or plain)[:155]
+    toc=[(slugify(s['h'])+'-%d'%k,s['h']) for k,s in enumerate(secs)]
+    gcta='<aside class="gcta"><div><h3>Klar til at møde nogen?</h3><p>Det er gratis at oprette en profil hos de datingsider, vi anbefaler.</p></div><div class="gcta-l">'+''.join('<a href="#" rel="sponsored nofollow"><span class="plg"><img src="img/%s" alt="" style="height:%s"></span><span><small>%s</small><b>%s</b></span>%s</a>'%(l,h,s,n,ARS) for n,l,h,s,u in LOGOS)+'</div><p class="adl"><span>Reklamelinks</span>Vi får betaling, hvis du opretter dig.</p></aside>'
+    body=[]
+    if intro: body.append('<section class="blk">%s</section>'%intro)
+    for k,s in enumerate(secs):
+        body.append('<section id="%s" class="blk"><h2>%s</h2>%s</section>'%(toc[k][0],esc(s['h']),''.join(s['b'])))
+        if k==2: body.append(gcta)
+    if len(secs)<=2: body.append(gcta)
+    others=[g for g in GLINKS if g[0]!=a['s']][i%5:i%5+3] or GLINKS[:3]
+    rel='<section class="lsec lgray"><div class="wrap"><div class="sec-head"><h2>Flere guides</h2><span class="rule" aria-hidden="true"></span></div><div class="ovgrid">'+''.join('<a class="ov" href="/%s/"><small>Guide</small><h3>%s</h3><span class="go">Læs guiden %s</span></a>'%(s,esc(t),ARS) for s,t in others)+'</div></div></section>'
+    side='<aside class="side"><div class="sticky"><nav class="toc" aria-label="Indhold" style="margin-top:0;padding-top:0;border:0"><p>Indhold</p><ol>%s</ol></nav><div class="gside"><p>Vores anbefaling</p><div class="mini"><img src="img/logo-dating.webp" alt=""><div><b>Dating.dk</b><span>Gratis at oprette en profil</span></div></div><a class="cta sm" href="#" rel="sponsored nofollow"><span>Besøg Dating.dk</span><i>%s</i></a><p class="adl"><span>Reklamelink</span>Vi får betaling, hvis du opretter dig.</p></div></div></aside>'%(''.join('<li><a href="#%s">%s</a></li>'%(x,esc(y)) for x,y in toc),ARS)
+    hero='<section class="rhero ghero"><div class="glow" aria-hidden="true"></div><div class="wrap"><nav class="crumbs" aria-label="Brødkrummer"><a href="/">Forside</a><span>/</span><a href="/artikler/">Guides</a><span>/</span><span aria-current="page">%s</span></nav><p class="gkick">Guide</p><h1>%s</h1><p class="meta"><span>Opdateret 19. november 2026</span><span>Af Dateworld-redaktionen</span></p></div></section>'%(esc(a['title'][:40]),esc(a['title']))
+    main=hero+'<section class="rbody"><div class="wrap rgrid"><article class="rart">'+'\n'.join(body)+'</article>'+side+'</div></section>'+rel
+    put('/%s/'%a['s'],shell(main,a['title']),a['title']+' – Dateworld',desc)
+for i,a in enumerate(ART): article(a,i)
+# rebuild artikler overview incl. migrated
+ovpage('/artikler/','Guides om dating, dates og kærlighed – Dateworld','Guides og artikler','Råd til profilen, den første date og livet i et forhold.',
+ [('Din profil','Dating profiltekst','Sådan skriver du en god datingprofil.','/dating-profiltekst/','Læs guiden')]+[('Guide',t,'',('/%s/'%s),'Læs guiden') for s,t in GLINKS])
+open(OUT+'/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join('<url><loc>https://dateworld.dk%s</loc><lastmod>2026-11-19</lastmod></url>\n'%u for u in sorted(PAGES))+'</urlset>\n')
+print(len(PAGES),'pages total')
