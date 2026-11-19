@@ -28,14 +28,22 @@ EXTRA_REV={'Dating.dk':'/dating-dk-anmeldelse/','Scor':'/scor-dk-anmeldelse/','4
 U.update(EXTRA_REV); REV.update(EXTRA_REV)
 U.update({'LGBT+ dating':'/boesse-dating/','Siden indeholder affiliatelinks':'/saadan-arbejder-vi/','Læs, hvordan vi arbejder':'/saadan-arbejder-vi/','Sikker netdating':'/artikler/','Læs anmeldelserne':'/anmeldelser/','sammenligning af datingsider':'/datingsider/','guides til dating':'/artikler/','dating app':'/bedste-dating-apps/','anmeldelser af datingsider':'/anmeldelser/','Sammenlign datingsider':'/datingsider/','Se forslag':None,'swingere':'/swingerdating/','swingerklub':'/swingerdating/','falske profiler':'/artikler/','Du søger en kæreste':'/datingsider/'})
 UL={k.lower():v for k,v in U.items() if v}
-AFF={}  # brand name -> affiliate url (fase 4)
+PA='https://www.partner-ads.com/dk/klikbanner.php?partnerid=14854&bannerid='
+AFF={'Dating.dk':PA+'39174','Senior.dk':PA+'37441','Erox.dk':PA+'62892','Scor.dk':PA+'77020','Sexhunt.dk':PA+'26776'}  # brand name -> affiliate url (fase 4)
 def strip(s): return re.sub(r'\s+',' ',H_.unescape(re.sub(r'<[^>]+>',' ',s))).strip()
 def fix_links(p):
     def rep(m):
         a,inner=m.group(1),m.group(2); t=strip(inner)
         if 'sponsored' in a:
+            nm=None
             for n in sorted(REV,key=len,reverse=True):
-                if n in t: return '<a'+a.replace('href="#"','href="%s"'%AFF.get(n,'#'))+'>'+inner+'</a>'
+                if n in t: nm=n;break
+            if not nm:
+                ctx=strip(m.string[max(0,m.start()-1500):m.start()]);bi=-1
+                for n in sorted(REV,key=len,reverse=True):
+                    i=ctx.rfind(n)
+                    if i>bi: bi=i;nm=n
+            if nm in AFF: return '<a'+a.replace('href="#"','href="%s"'%AFF[nm].replace('&','&amp;'))+'>'+inner+'</a>'
             return m.group(0)
         url=UL.get(t.lower())
         if not url:
