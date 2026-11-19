@@ -11,7 +11,7 @@ pages=sorted(set(p.replace('//','/') for p in pages))
 styles=[];seen=set()
 front=open(PUB+'/index.html',encoding='utf-8').read()
 head=front[:front.index('</head>')]
-links=''.join(re.findall(r'<link[^>]+>',head))
+links=''.join(l for l in re.findall(r'<link[^>]+>',head) if 'canonical' not in l)
 def fixsrc(s): return re.sub(r'(src|href)="/img/',r'\1="/wp-content/themes/dateworld/img/',s).replace("url(/img/","url(/wp-content/themes/dateworld/img/")
 menujs=None;out=[]
 for p in pages:

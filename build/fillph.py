@@ -30,3 +30,10 @@ def fill(t):
     t=t.replace('[Hvordan siderne vises på kontoudtoget, fx under et neutralt firmanavn. Tjekkes for hver side.]','Det varierer fra side til side. Mange voksensider trækker betalingen under et neutralt firmanavn – navnet står typisk på betalingssiden, så tjek det, før du betaler.')
     for a,b in [(r'\[Hvor du finder[^\]]*\]',OPS['finder']),(r'\[Om [^\]]*(?:fornyes|abonnement)[^\]]*\]',OPS['fornyes']),(r'\[Hvor du sletter[^\]]*\]',OPS['sletter'])]: t=re.sub(a,b,t)
     return t
+_fill0=fill
+def fill(t):
+    t=_fill0(t)
+    def fx(m):
+        n=m.group(3);v=NM.get(n)
+        return '<span class="plg"><b>%s</b></span><span><small>%s</small><b>%s</b>'%(n,v['chips'][-1] if v else m.group(2),n)
+    return re.sub(r'<span class="plg"><b>([^<]*)</b></span><span><small>([^<]*)</small><b>([^<]*)</b>',fx,t)
