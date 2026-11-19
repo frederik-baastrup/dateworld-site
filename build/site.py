@@ -1,7 +1,7 @@
 import re,os,shutil,html as H_
 exec(open('brands.py',encoding='utf-8').read())
 exec(open('hubs.py',encoding='utf-8').read())
-OUT='/home/claude/site'
+OUT='/home/claude/dateworld-site/public'
 if os.path.exists(OUT): shutil.rmtree(OUT)
 os.makedirs(OUT+'/img')
 src=open('/home/claude/dw-page/index.html',encoding='utf-8').read()
@@ -45,7 +45,7 @@ def fix_links(p):
             for n in sorted(REV,key=len,reverse=True):
                 if n in t and ('anmeld' in t.lower() or len(t)<=len(n)+2): url=REV[n];break
         if not url and ('Læs anmeldelsen' in t or 'Læs guiden' in t):
-            ctx=strip(m.string[max(0,m.start()-900):m.start()])
+            ctx=strip(m.string[max(0,m.start()-3000):m.start()])
             best=None;bi=-1
             for n in REV:
                 i=ctx.rfind(n)
