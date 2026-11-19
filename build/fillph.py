@@ -35,5 +35,6 @@ def fill(t):
     t=_fill0(t)
     def fx(m):
         n=m.group(3);v=NM.get(n)
+        if m.group(1)==n: return m.group(0)
         return '<span class="plg"><b>%s</b></span><span><small>%s</small><b>%s</b>'%(n,v['chips'][-1] if v else m.group(2),n)
     return re.sub(r'<span class="plg"><b>([^<]*)</b></span><span><small>([^<]*)</small><b>([^<]*)</b>',fx,t)
