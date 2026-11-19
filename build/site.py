@@ -247,3 +247,10 @@ ovpage('/artikler/','Guides om dating, dates og kærlighed – Dateworld','Guide
  [('Din profil','Dating profiltekst','Sådan skriver du en god datingprofil.','/dating-profiltekst/','Læs guiden')]+[('Guide',t,'',('/%s/'%s),'Læs guiden') for s,t in GLINKS])
 open(OUT+'/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join('<url><loc>https://dateworld.dk%s</loc><lastmod>2026-11-19</lastmod></url>\n'%u for u in sorted(PAGES))+'</urlset>\n')
 print(len(PAGES),'pages total')
+
+# fyld pladsholdere
+import glob as _g
+exec(open('/home/claude/dateworld-site/build/fillph.py').read())
+for _f in _g.glob(OUT+'/**/index.html',recursive=True) if 'OUT' in dir() else []:
+    _t=open(_f).read();_n=fill(_t)
+    if _n!=_t: open(_f,'w').write(_n)
