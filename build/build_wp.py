@@ -31,7 +31,7 @@ for p in pages:
     slug='forside' if p=='/' else p.strip('/')
     out.append(dict(slug=slug,title=title,desc=desc,content='<!-- wp:html -->\n'+content+'\n<!-- /wp:html -->'))
 css=fixsrc('\n'.join(styles))
-open(T+'/style.css','w',encoding='utf-8').write('/*\nTheme Name: Dateworld\nAuthor: Mondae\nVersion: 1.0\n*/\n'+css)
+open(T+'/style.css','w',encoding='utf-8').write('/*\nTheme Name: Dateworld\nAuthor: Mondae\nVersion: 1.0\n*/\n'+css+'\n'+open('/home/claude/dateworld-site/build/wp_extra.css').read())
 top=front[front.index('<body'):front.index('<main')] if '<main' in front else ''
 # header markup = from <body...> to just before <main>
 body_open=re.search(r'<body[^>]*>',front).group(0)

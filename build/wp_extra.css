@@ -1,0 +1,4 @@
+/* Forside: hero-billede (Pexels #1710987) */
+.home .hero{background:linear-gradient(90deg,#1d1418 0%,rgba(29,20,24,.9) 34%,rgba(29,20,24,.5) 68%,rgba(29,20,24,.35) 100%),url(/wp-content/uploads/2026/11/dateworld-hero-par.jpg) 75% 35%/cover no-repeat,#1d1418}
+.home .hero .art{opacity:.35}
+@media (max-width:860px){.home .hero{background:linear-gradient(180deg,rgba(29,20,24,.78) 0%,rgba(29,20,24,.92) 60%,#1d1418 100%),url(/wp-content/uploads/2026/11/dateworld-hero-par.jpg) 60% 30%/cover no-repeat,#1d1418}}
