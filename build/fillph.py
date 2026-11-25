@@ -71,3 +71,13 @@ def fill(t):
         n=m.group(1)
         return '<a href="%s" rel="nofollow noopener">%s<b>%s</b>'%(HOME[n],m.group(2),n) if n in HOME else m.group(0)
     return re.sub(r'<a href="#" rel="sponsored nofollow">((?:(?!</a>).){0,400}?)<b>([^<]+)</b>',lambda m:r(type('M',(),{'group':lambda s,i:[m.group(0),m.group(2),m.group(1)][i]})()),t,flags=re.S)
+_fill3=fill
+def fill(t):
+    t=_fill3(t)
+    for a,b in [('Det påvirker ikke rækkefølgen eller det, vi skriver.','Tjenester, vi samarbejder med, vises først, og betalingen påvirker rækkefølgen. Den påvirker ikke, hvad vi skriver om tjenesterne.'),
+                ('Betalingen påvirker ikke vores vurderinger eller rækkefølgen.','Tjenester, vi samarbejder med, vises først, og betalingen påvirker rækkefølgen på vores sammenligninger. Den påvirker ikke, hvad vi skriver om tjenesterne.'),
+                ('Rangeret ud fra vores samlede vurdering af de tjenester, vi har gennemgået.','Tjenester, vi samarbejder med, vises først. Rækkefølgen er påvirket af den betaling, vi får fra dem.'),
+                ('Rækkefølgen følger vores samlede vurdering.','Tjenester, vi samarbejder med, vises først, og rækkefølgen er påvirket af den betaling, vi får fra dem.'),
+                ('Rangeret ud fra vores samlede vurdering.','Tjenester, vi samarbejder med, vises først. Rækkefølgen er påvirket af den betaling, vi får fra dem.')]:
+        t=t.replace(a,b)
+    return t
